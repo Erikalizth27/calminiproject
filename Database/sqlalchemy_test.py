@@ -11,29 +11,7 @@ engine = create_engine('sqlite:////web/Sqlite-Data/example.db')
 
 # this loads the sqlalchemy base class
 Base = declarative_base()
-# Insert a Person in the person table
-new_person1 = Person(name='Keith')
-session.add(new_person1)
 
-new_person2 = Person(name='Joe')
-session.add(new_person1)
-
-new_person3 = Person(name='Steve')
-session.add(new_person1)
-session.commit()
-
-# Insert an Address in the address table using a loop
-
-addresses = [
-    Address(post_code='00001', person=new_person1),
-    Address(post_code='00002', person=new_person2),
-    Address(post_code='00003', person=new_person3),
-]
-
-# Loop through addresses and commit them to the database
-for address in addresses:
-    session.add(address)
-    session.commit()
 
 # Setting up the classes that create the record objects and define the schema
 
@@ -74,6 +52,31 @@ DBSession = sessionmaker(bind=engine)
 # revert all of them back to the last commit by calling
 # session.rollback()
 session = DBSession()
+
+# Insert a Person in the person table
+new_person1 = Person(name='Keith')
+session.add(new_person1)
+
+new_person2 = Person(name='Joe')
+session.add(new_person1)
+
+new_person3 = Person(name='Steve')
+session.add(new_person1)
+session.commit()
+
+# Insert an Address in the address table using a loop
+
+addresses = [
+    Address(post_code='00001', person=new_person1),
+    Address(post_code='00002', person=new_person2),
+    Address(post_code='00003', person=new_person3),
+]
+
+# Loop through addresses and commit them to the database
+for address in addresses:
+    session.add(address)
+    session.commit()
+
 # joins Person on Address
 all_people = session.query(Person).join(Address).all()
 
